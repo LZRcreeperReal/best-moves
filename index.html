@@ -1,3 +1,6 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Brilliant Finder</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -112,6 +115,13 @@ h2.title { margin: 0; font: 800 clamp(1.7rem, 6vw, 2.3rem)/1.1 var(--f-ui); lett
 .field > span { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
 .field input, .field select { background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 13px 12px; width: 100%; font-size: 16px; min-height: 50px; }
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.gamesrow { display: flex; gap: 6px; }
+.gamesrow input { flex: 1; min-width: 0; }
+.gamesrow input:disabled { opacity: .45; }
+.allbtn { flex: none; min-height: 50px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--muted); font-weight: 600; font-size: .95rem; }
+.allbtn[aria-pressed="true"] { background: var(--brill-soft); border-color: var(--brill); color: var(--brill); }
+.check { display: flex; align-items: flex-start; gap: 10px; font-size: .95rem; line-height: 1.35; cursor: pointer; }
+.check input { width: 20px; height: 20px; margin: 1px 0 0; flex: none; accent-color: var(--brill); }
 .btn { background: var(--good); color: #fff; border: 0; border-radius: 12px; min-height: 56px; padding: 14px 18px; font: 800 1.15rem var(--f-ui); box-shadow: inset 0 -5px 0 var(--good-deep); display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
 .btn.teal { background: var(--brill); box-shadow: inset 0 -5px 0 var(--brill-deep); }
 .btn:hover:not(:disabled) { filter: brightness(1.08); }
@@ -306,7 +316,7 @@ textarea { width: 100%; min-height: 120px; background: var(--bg); border: 1px so
       <button type="button" class="action" data-go="review"><div class="ic" style="background:#5c9ced"><svg viewBox="0 0 24 24"><path d="M3 13h2v8H3zm4-6h2v14H7zm4 3h2v11h-2zm4-7h2v18h-2zm4 10h2v8h-2z"/></svg></div><div><b>Game Review</b><span>Accuracy, blunders and best moves for any game</span></div><svg viewBox="0 0 24 24"><path d="M8.6 16.6 13.2 12 8.6 7.4 10 6l6 6-6 6z"/></svg></button>
       <button type="button" class="action" data-go="best"><div class="ic" style="background:var(--good)"><svg viewBox="0 0 24 24"><path d="M9 4.5 7.6 6H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-2.6L15 4.5zM12 9a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"/></svg></div><div><b>Best Move</b><span>Snap a screenshot, get the best move</span></div><svg viewBox="0 0 24 24"><path d="M8.6 16.6 13.2 12 8.6 7.4 10 6l6 6-6 6z"/></svg></button>
       <button type="button" class="action" data-go="practice"><div class="ic" style="background:var(--warn)"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 3a7 7 0 1 1-7 7 7 7 0 0 1 7-7zm0 3a4 4 0 1 0 4 4 4 4 0 0 0-4-4z"/></svg></div><div><b>Checkmate Practice</b><span id="homePractice">18 early-mate traps to master</span></div><svg viewBox="0 0 24 24"><path d="M8.6 16.6 13.2 12 8.6 7.4 10 6l6 6-6 6z"/></svg></button>
-      <button type="button" class="action" data-go="brilliants"><div class="ic" style="background:var(--brill)"><svg viewBox="0 0 24 24"><path d="M7 3h3l-.6 12H7.6zM14 3h3l-.6 12h-1.8zM8.5 17a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm7 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg></div><div><b>Find Brilliants</b><span>Scan your games for brilliant sacrifices</span></div><svg viewBox="0 0 24 24"><path d="M8.6 16.6 13.2 12 8.6 7.4 10 6l6 6-6 6z"/></svg></button>
+      <button type="button" class="action" data-go="brilliants"><div class="ic" style="background:var(--brill)"><svg viewBox="0 0 24 24"><path d="M7 3h3l-.6 12H7.6zM14 3h3l-.6 12h-1.8zM8.5 17a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm7 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg></div><div><b>Find Brilliants</b><span>Scan your games for brilliant moves</span></div><svg viewBox="0 0 24 24"><path d="M8.6 16.6 13.2 12 8.6 7.4 10 6l6 6-6 6z"/></svg></button>
     </div>
     <p class="sect">Up next</p>
     <div id="homeNext"></div>
@@ -476,7 +486,7 @@ textarea { width: 100%; min-height: 120px; background: var(--bg); border: 1px so
     </div>
   </div>
   <aside class="panel">
-    <div class="phead"><h2>Brilliant finder</h2><p>Scan your games for sound sacrifices that were also the best move.</p></div>
+    <div class="phead"><h2>Brilliant finder</h2><p>Scan your games for brilliant moves: sacrifices that work, and only-moves that take real depth to see.</p></div>
     <div class="prog" id="brProg" hidden><div class="bar"><div id="brBar"></div></div><p class="status" id="brStatus"></p></div>
     <div class="tabs" role="tablist">
       <button type="button" role="tab" id="tabScan" aria-selected="true">Scan</button>
@@ -497,13 +507,15 @@ textarea { width: 100%; min-height: 120px; background: var(--bg); border: 1px so
         </div>
         <div id="fetchPanel" style="display:none;gap:6px"><p class="hint">Your newest games download straight from the site.</p><button type="button" class="linkbtn" id="toFile">Use a PGN file instead</button></div>
         <div class="two">
-          <label class="field"><span>Games</span><input id="maxGames" type="number" inputmode="numeric" value="100" min="1" max="10000"></label>
+          <div class="field"><span>Games</span><div class="gamesrow"><input id="maxGames" type="number" inputmode="numeric" value="100" min="1" max="100000" aria-label="Number of games"><button type="button" class="allbtn" id="allGames" aria-pressed="false" title="Scan every game on the account">All</button></div></div>
           <label class="field"><span>Speed</span><select id="speed"><option value="10">Fast</option><option value="13" selected>Balanced</option><option value="16">Deep</option></select></label>
         </div>
         <details><summary>Advanced</summary>
           <div style="display:grid;gap:12px">
             <div class="two"><label class="field"><span>Min sacrifice</span><input id="minSac" type="number" inputmode="decimal" value="2" step="0.5" min="1"></label><label class="field"><span>Max loss (cp)</span><input id="maxLoss" type="number" inputmode="numeric" value="30" min="0"></label></div>
             <div class="two"><label class="field"><span>Skip if up (cp)</span><input id="maxBefore" type="number" inputmode="numeric" value="500"></label><label class="field"><span>Eval after ≥ (cp)</span><input id="minAfter" type="number" inputmode="numeric" value="-50"></label></div>
+            <label class="check"><input type="checkbox" id="onlyMoves" checked><span>Also find only-moves: the one good move that a quick search misses (slower)</span></label>
+            <div class="two"><label class="field"><span>Only-move gap (%)</span><input id="minGap" type="number" inputmode="numeric" value="20" min="5" max="60"></label></div>
           </div>
         </details>
         <div class="row"><button class="btn teal" id="go" type="submit" style="flex:3">Find brilliants</button><button class="btn2" id="stop" type="button" disabled>Stop</button></div>
@@ -952,6 +964,8 @@ class Engine {
   }
   off(f) { this.listeners = this.listeners.filter(x => x !== f); }
   async ready(ms) { if (this.failed) throw new Error('Stockfish failed to load.'); this.send('isready'); await this.waitFor(l => l === 'readyok', ms); }
+  // Clears the hash so a shallow search can't reuse deeper results from earlier searches.
+  async fresh() { this.send('ucinewgame'); await this.ready(); }
   // Streams info for up to `mpv` lines; scores are for the side to move (mate = ±(10000 − plies)).
   async run(fen, depth, mpv = 1, onInfo) {
     const lines = [];
@@ -1366,6 +1380,32 @@ function sacrifice(g, move) {
   const res = g.in_checkmate() ? { amount: 0, mate: true, fenAfter: g.fen() } : { amount: base + qs(g, 4, -999, 999), mate: false, fenAfter: g.fen() };
   g.undo(); return res;
 }
+// Material the move really gives up, measured against the safest alternative. Moving a piece that
+// was lost anyway (trapped, attacked twice, stuck in a pin) is not a sacrifice.
+function realSacrifice(g, move, min = 1) {
+  const sac = sacrifice(g, move);
+  if (!sac || sac.mate || sac.amount < min) return sac;
+  let safest = Infinity;
+  for (const alt of g.moves({ verbose: true })) {
+    if (alt.from === move.from && alt.to === move.to && alt.promotion === move.promotion) continue;
+    const a = sacrifice(g, alt); if (!a) continue;
+    safest = Math.min(safest, a.mate ? -99 : a.amount);
+    if (safest <= 0) break;
+  }
+  if (safest !== Infinity && safest > 0) sac.amount -= safest;
+  return sac;
+}
+// A move is "hard to find" when a quick search prefers another move AND rates the played move
+// clearly worse (by HIDDEN % win chance). Both searches start with a cleared hash.
+const SHALLOW = 6, HIDDEN = 10;
+async function shallowLook(eng, fenBefore, fenAfter, uci) {
+  await eng.fresh(); const sh = await eng.run(fenBefore, SHALLOW);
+  if (sh.best === uci) return { best: sh.best, score: sh.score, hidden: 0 };
+  await eng.fresh(); const after = await eng.run(fenAfter, SHALLOW - 1);
+  return { best: sh.best, score: sh.score, hidden: winPct(sh.score) - winPct(-after.score) };
+}
+// Taking back on the square where the opponent just captured is never hard to find.
+const isRecapture = (m, prev) => !!(prev && prev.captured && m.captured && m.to === prev.to);
 function headers(pgn) { const h = {}; const re = /^\s*\[(\w+)\s+"((?:[^"\\]|\\.)*)"\]/gm; let m; while ((m = re.exec(pgn))) h[m[1]] = m[2]; return h; }
 function speedFrom(tc) { if (!tc || tc === '-') return ''; if (tc.includes('/')) return 'daily'; const [b, i] = tc.split('+').map(Number), est = (b || 0) + 40 * (i || 0); return est < 180 ? 'bullet' : est < 480 ? 'blitz' : est < 1500 ? 'rapid' : 'classical'; }
 function gamesFromPgn(text, user) {
@@ -1408,7 +1448,7 @@ async function fetchChessCom(user, max, status) {
 }
 async function fetchLichess(user, max, status) {
   status('Downloading games from Lichess…');
-  const r = await fetch(`https://lichess.org/api/games/user/${encodeURIComponent(user)}?max=${max}&pgnInJson=true&clocks=false&evals=false&opening=false`, { headers: { Accept: 'application/x-ndjson' } });
+  const r = await fetch(`https://lichess.org/api/games/user/${encodeURIComponent(user)}?${isFinite(max) ? `max=${max}&` : ''}pgnInJson=true&clocks=false&evals=false&opening=false`, { headers: { Accept: 'application/x-ndjson' } });
   if (r.status === 404) throw new Error('No Lichess player with that username.');
   if (!r.ok) throw new Error('Lichess returned error ' + r.status + '. Try again in a minute.');
   const u = user.toLowerCase();
@@ -1476,7 +1516,9 @@ function brSelect(r) {
   av($('brBotAv'), me); av($('brTopAv'), opp);
   const date = r.game.date ? new Date(r.game.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' }) : '';
   $('gameinfo').innerHTML = `<b>${esc(r.game.white)} vs ${esc(r.game.black)}</b><span>${[r.game.speed, date].filter(Boolean).map(esc).join(' · ')}</span>
-    <span>Gave up ${r.sac} point${r.sac === 1 ? '' : 's'} of material · ${r.wasBest ? 'Stockfish’s top move' : 'Stockfish slightly preferred ' + esc(r.bestSan)}</span>
+    <span>${r.kind === 'only'
+      ? `Only move: the next-best option was ${r.gap}% worse in win chance · A quick search preferred ${esc(r.shallowSan)}`
+      : `Sacrifice: gave up ${r.sac} point${r.sac === 1 ? '' : 's'} of material · ${r.wasBest ? 'Stockfish’s top move' : 'Stockfish slightly preferred ' + esc(r.bestSan)}`}</span>
     <div>${r.game.url ? `<a href="${esc(r.game.url)}" target="_blank" rel="noopener">Open game ↗</a>` : ''}<a href="https://lichess.org/analysis/standard/${esc(r.fenBefore.replace(/ /g, '_'))}" target="_blank" rel="noopener">Analyze on Lichess ↗</a></div>
     <button type="button" class="btn2" id="brReview" style="margin-top:6px"><svg viewBox="0 0 24 24"><path d="M3 13h2v8H3zm4-6h2v14H7zm4 3h2v11h-2zm4-7h2v18h-2zm4 10h2v8h-2z"/></svg>Full game review</button>`;
   $('brReview').onclick = () => { showView('review'); startReview(r.game); };
@@ -1548,7 +1590,7 @@ function brAdd(r) {
   const n = r.fenBefore.split(' ')[5], no = r.color === 'w' ? `${n}.` : `${n}…`, cpW = r.color === 'w' ? r.played : -r.played;
   const opp = r.game.color === 'w' ? r.game.black : r.game.white, date = r.game.date ? new Date(r.game.date).toLocaleDateString(undefined, { timeZone: 'UTC' }) : '';
   it.innerHTML = `<div class="thumb">${svgBoard(r.fenAfter, { flip: r.game.color === 'b', small: true, last: [r.from, r.to], lastColor: 'rgba(38,194,163,.55)', badge: { sq: r.to, kind: 'brill' } })}</div>
-    <div style="min-width:0"><div class="imove">${no} ${esc(r.san)}<em>!!</em>${r.example ? '<span class="tag">Example</span>' : ''}</div><div class="imeta">vs ${esc(opp)}${r.game.speed ? ' · ' + esc(r.game.speed) : ''}${date ? ' · ' + date : ''}</div></div>
+    <div style="min-width:0"><div class="imove">${no} ${esc(r.san)}<em>!!</em>${r.example ? '<span class="tag">Example</span>' : ''}</div><div class="imeta">${r.kind === 'only' ? 'Only move' : 'Sacrifice'} · vs ${esc(opp)}${r.game.speed ? ' · ' + esc(r.game.speed) : ''}${date ? ' · ' + date : ''}</div></div>
     <span class="chip${cpW < 0 ? ' neg' : ''}">${evalSigned(cpW)}</span>`;
   it.onclick = () => { brSelect(r); if (matchMedia('(max-width: 999px)').matches) window.scrollTo({ top: 0, behavior: 'smooth' }); };
   $('brList').appendChild(it);
@@ -1565,9 +1607,11 @@ async function brGetGames(s) {
   return games.slice(0, s.maxGames);
 }
 const num = (id, d) => { const v = parseFloat($(id).value); return isNaN(v) ? d : v; };
+let allGames = false;
+$('allGames').onclick = () => { allGames = !allGames; $('allGames').setAttribute('aria-pressed', allGames); $('maxGames').disabled = allGames; };
 $('paneScan').addEventListener('submit', async e => {
   e.preventDefault(); if (brRunning) return;
-  const s = { user: $('user').value.trim(), maxGames: Math.max(1, Math.round(num('maxGames', 100))), depth: Math.round(num('speed', 13)), minSac: num('minSac', 2), maxLoss: num('maxLoss', 30), maxBefore: num('maxBefore', 500), minAfter: num('minAfter', -50) };
+  const s = { user: $('user').value.trim(), maxGames: allGames ? Infinity : Math.max(1, Math.round(num('maxGames', 100))), depth: Math.round(num('speed', 13)), minSac: num('minSac', 2), maxLoss: num('maxLoss', 30), maxBefore: num('maxBefore', 500), minAfter: num('minAfter', -50), only: $('onlyMoves').checked, minGap: num('minGap', 20) };
   if (!s.user) { brStatus('Enter your username first.', true); $('user').focus(); return; }
   if (!HAS_CHESS) { brStatus('The chess library did not load. Check your connection and reload.', true); return; }
   brRunning = true; brStop = false; $('go').disabled = true; $('stop').disabled = false; brBar(0);
@@ -1581,24 +1625,40 @@ $('paneScan').addEventListener('submit', async e => {
     const queue = [], waiters = [], gs = games.map(() => ({ parsed: false, pending: 0, done: false }));
     let producing = true;
     const wake = () => waiters.splice(0).forEach(w => w());
-    const line = () => { brBar(gamesDone / games.length); brStatus(`${gamesDone}/${games.length} games · ${checked} sacrifices checked · ${found} brilliant`); };
+    const line = () => { brBar(gamesDone / games.length); brStatus(`${gamesDone}/${games.length} games · ${checked} moves checked · ${found} brilliant`); };
     const fin = gi => { const g = gs[gi]; if (g.parsed && !g.pending && !g.done) { g.done = true; gamesDone++; line(); } };
-    const judge = async (eng, c) => {
+    const record = (c, extra) => {
+      found++;
+      const r = { game: c.game, idx: c.idx, color: c.m.color, san: c.m.san, from: c.m.from, to: c.m.to, fenBefore: c.fenBefore, fenAfter: c.fenAfter, kind: c.kind, ...extra };
+      evalCache.set(c.fenAfter, c.m.color === 'w' ? r.played : -r.played);
+      brAdd(r); if (found === 1) { brSelect(r); brTab('tabList'); }
+      line();
+    };
+    // Sacrifice: gives up material for real, and Stockfish still rates it (nearly) best.
+    const judgeSac = async (eng, c, uci) => {
       const quick = await eng.run(c.fenAfter, 8);
       if (brStop || -quick.score < s.minAfter - 150) return;
       const before = await eng.run(c.fenBefore, s.depth); if (brStop) return;
-      const uci = c.m.from + c.m.to + (c.m.promotion || '');
       let played = before.score;
       if (uci !== before.best) { const after = await eng.run(c.fenAfter, s.depth); if (brStop) return; played = -after.score; }
       if (before.score > s.maxBefore && played < 9000) return;
-      if (before.score - played <= s.maxLoss && played >= s.minAfter) {
-        found++;
-        const r = { game: c.game, idx: c.idx, color: c.m.color, san: c.m.san, from: c.m.from, to: c.m.to, fenBefore: c.fenBefore, fenAfter: c.fenAfter, sac: c.sac, played, wasBest: uci === before.best, bestSan: uciToSan(c.fenBefore, before.best) };
-        evalCache.set(c.fenAfter, c.m.color === 'w' ? played : -played);
-        brAdd(r); if (found === 1) { brSelect(r); brTab('tabList'); }
-        line();
-      }
+      if (before.score - played <= s.maxLoss && played >= s.minAfter)
+        record(c, { sac: c.sac, played, wasBest: uci === before.best, bestSan: uciToSan(c.fenBefore, before.best) });
     };
+    // Only move: Stockfish's clear top choice, every alternative is much worse, and a quick search misses it.
+    const judgeOnly = async (eng, c, uci) => {
+      const sh = await shallowLook(eng, c.fenBefore, c.fenAfter, uci);
+      if (brStop || sh.hidden < HIDDEN || (sh.score > s.maxBefore && sh.score < 9000) || sh.score < s.minAfter - 200) return;
+      const quick = await eng.run(c.fenAfter, 8);
+      if (brStop || -quick.score < Math.max(sh.score - 50, s.minAfter)) return;
+      const before = await eng.run(c.fenBefore, s.depth, 2);
+      if (brStop || before.best !== uci || before.lines.length < 2) return;
+      const best = before.lines[0].score, second = before.lines[1].score;
+      if ((best > s.maxBefore && best < 9000) || best < s.minAfter) return;
+      const gap = winPct(best) - winPct(second);
+      if (gap >= s.minGap) record(c, { played: best, wasBest: true, gap: Math.round(gap), shallowSan: uciToSan(c.fenBefore, sh.best) });
+    };
+    const judge = (eng, c) => { const uci = c.m.from + c.m.to + (c.m.promotion || ''); return c.kind === 'sac' ? judgeSac(eng, c, uci) : judgeOnly(eng, c, uci); };
     const consume = async eng => {
       for (;;) {
         if (brStop) return;
@@ -1615,8 +1675,9 @@ $('paneScan').addEventListener('submit', async e => {
         const moves = parsed.history({ verbose: true }), g = new Chess(parsed.header().FEN || START);
         moves.forEach((m, idx) => {
           if (m.color === game.color) {
-            const sac = sacrifice(g, m);
-            if (sac && !sac.mate && sac.amount >= s.minSac) { queue.push({ gi, game, m, idx, fenBefore: g.fen(), fenAfter: sac.fenAfter, sac: sac.amount }); gs[gi].pending++; }
+            const sac = realSacrifice(g, m, s.minSac);
+            if (sac && !sac.mate && sac.amount >= s.minSac) { queue.push({ gi, game, m, idx, kind: 'sac', fenBefore: g.fen(), fenAfter: sac.fenAfter, sac: sac.amount }); gs[gi].pending++; }
+            else if (s.only && sac && !sac.mate && idx >= 8 && !isRecapture(m, moves[idx - 1]) && !g.in_check() && g.moves().length >= 3) { queue.push({ gi, game, m, idx, kind: 'only', fenBefore: g.fen(), fenAfter: sac.fenAfter }); gs[gi].pending++; }
           }
           g.move({ from: m.from, to: m.to, promotion: m.promotion });
         });
@@ -1626,8 +1687,8 @@ $('paneScan').addEventListener('submit', async e => {
     }
     producing = false; wake(); await Promise.all(workers);
     brBar(brStop ? gamesDone / games.length : 1);
-    brStatus(`${brStop ? 'Stopped' : 'Done'} · ${gamesDone}/${games.length} games in ${((performance.now() - t0) / 1000).toFixed(0)}s · ${checked} sacrifices checked · ${found} brilliant`);
-    if (!found) { $('brList').innerHTML = '<p class="empty">No brilliant moves in these games.<br>Scan more games, or lower the minimum sacrifice under Advanced.</p>'; brTab('tabList'); }
+    brStatus(`${brStop ? 'Stopped' : 'Done'} · ${gamesDone}/${games.length} games in ${((performance.now() - t0) / 1000).toFixed(0)}s · ${checked} moves checked · ${found} brilliant`);
+    if (!found) { $('brList').innerHTML = '<p class="empty">No brilliant moves in these games.<br>Scan more games, or lower the minimum sacrifice or only-move gap under Advanced.</p>'; brTab('tabList'); }
   } catch (err) { brStatus(err.message, true); }
   finally { brRunning = false; $('go').disabled = false; $('stop').disabled = true; if (brView && !evalCache.has(brView.fens[brView.ply])) brQueueEval(brView.fens[brView.ply]); }
 });
@@ -1688,7 +1749,7 @@ function startReview(game, saved) {
   for (const m of moves) { g.move({ from: m.from, to: m.to, promotion: m.promotion }); fens.push(g.fen()); }
   const token = ++R.token;
   const me = ($('user').value || '').trim().toLowerCase();
-  Object.assign(R, { game, fens, moves, res: saved ? saved.res : new Array(fens.length), out: [], ply: 0, flip: !!me && game.black.toLowerCase() === me, done: !!saved, depth: saved ? saved.depth : rvDepth });
+  Object.assign(R, { game, fens, moves, res: saved ? saved.res : new Array(fens.length), out: [], sac: [], ply: 0, flip: !!me && game.black.toLowerCase() === me, done: !!saved, depth: saved ? saved.depth : rvDepth });
   $('rvInput').hidden = true; $('rvMain').hidden = false; $('rvPickCard').hidden = true;
   $('rvMeta').textContent = [`${game.white} vs ${game.black}`, game.result, game.date ? new Date(game.date).toLocaleDateString(undefined, { timeZone: 'UTC' }) : ''].filter(Boolean).join(' · ');
   rvTab('rvTabSum');
@@ -1728,6 +1789,20 @@ async function rvAnalyse(token) {
   const t0 = performance.now();
   await Promise.all(engines.map(worker));
   if (token !== R.token) return;
+  // Only-move candidates: check whether a quick search would have found them too.
+  rvClassify();
+  const cands = R.out.map((o, k) => o && o.onlyCand && R.res[k].hidden === undefined ? k : -1).filter(k => k >= 0);
+  if (cands.length) $('rvStatus').textContent = 'Checking for brilliant moves…';
+  await Promise.all(engines.map(async eng => {
+    while (cands.length) {
+      if (token !== R.token) return;
+      const k = cands.shift(), m = R.moves[k];
+      const sh = await shallowLook(eng, R.fens[k], R.fens[k + 1], m.from + m.to + (m.promotion || ''));
+      if (token !== R.token) return;
+      R.res[k].hidden = sh.hidden;
+    }
+  }));
+  if (token !== R.token) return;
   R.done = true; rvClassify(); rvRenderAll();
   $('rvStatus').textContent = `Reviewed ${R.moves.length} moves in ${((performance.now() - t0) / 1000).toFixed(0)}s`;
   setTimeout(() => { if (token === R.token) $('rvProg').hidden = true; }, 2500);
@@ -1743,18 +1818,23 @@ function rvClassify() {
     const bestCp = a.score, playedCp = isBest ? Math.max(a.score, -b.score) : -b.score;
     const wb = winPct(bestCp), wpl = winPct(playedCp), loss = Math.max(0, wb - wpl);
     const mateNow = b.score === -10000 && new Chess(R.fens[k + 1]).in_checkmate();
-    let c;
+    let c, kind = null, onlyCand = false;
     if (mateNow) c = 'best';
     else if (isBest || loss < 1) {
-      const g = new Chess(R.fens[k]); const sac = sacrifice(g, m);
-      if (sac && !sac.mate && sac.amount >= 2 && wpl >= 50 && wb < 97) c = 'brilliant';
-      else if (isBest && a.second != null && wb - winPct(a.second) >= 20 && wpl >= 35) c = 'great';
+      if (R.sac[k] === undefined) { const sac = realSacrifice(new Chess(R.fens[k]), m, 2); R.sac[k] = sac && !sac.mate ? sac.amount : 0; }
+      const gap = isBest && a.second != null ? wb - winPct(a.second) : 0;
+      if (R.sac[k] >= 2 && wpl >= 50 && wb < 97) { c = 'brilliant'; kind = 'sac'; }
+      else if (gap >= 20 && wpl >= 35) {
+        const g = new Chess(R.fens[k]);
+        onlyCand = k >= 8 && wpl >= 50 && wb < 97 && !isRecapture(m, R.moves[k - 1]) && !g.in_check() && g.moves().length >= 3;
+        if (onlyCand && a.hidden >= HIDDEN) { c = 'brilliant'; kind = 'only'; } else c = 'great';
+      }
       else c = isBest ? 'best' : 'excellent';
     } else if (loss <= 2) c = 'excellent'; else if (loss <= 5) c = 'good'; else if (loss <= 10) c = 'inaccuracy'; else if (loss <= 20) c = 'mistake'; else c = 'blunder';
     const prev = out[k - 1];
     if (prev && ['mistake', 'blunder', 'miss'].includes(prev.cls) && ['inaccuracy', 'mistake', 'blunder'].includes(c) && wb >= 60 && wpl >= 40) c = 'miss';
     const acc = Math.max(0, Math.min(100, 103.1668 * Math.exp(-0.04354 * loss) - 3.1669));
-    out.push({ cls: c, loss, acc, best: a.best, bestSan: a.best && !isBest ? uciToSan(R.fens[k], a.best) : '', color: m.color });
+    out.push({ cls: c, kind, onlyCand, loss, acc, best: a.best, bestSan: a.best && !isBest ? uciToSan(R.fens[k], a.best) : '', color: m.color });
   }
   R.out = out;
 }
@@ -1842,7 +1922,7 @@ function rvDraw(anim) {
   const mate = new Chess(fen).in_checkmate();
   let sub = '';
   if (mate) sub = 'Checkmate. Game over.';
-  else if (o.cls === 'brilliant') sub = 'A sacrifice that works. The engine agrees it’s the top move.';
+  else if (o.cls === 'brilliant') sub = o.kind === 'only' ? 'The only good move, and a hard one to see: a quick search picks something else.' : 'A sacrifice that works. The engine agrees it’s the top move.';
   else if (o.cls === 'great') sub = 'The only move that keeps the position together.';
   else if (o.cls === 'best') sub = 'The engine’s top choice.';
   else if (o.cls === 'miss') sub = `Missed the chance to punish the last move. Best was ${esc(o.bestSan)}.`;
